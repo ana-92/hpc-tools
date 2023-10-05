@@ -2,7 +2,7 @@
 
 1. Clone the git repository in [https://gitlab.citic.udc.es/emilio.padron/hpctools](https://github.com/ana-92/hpc-tools-linear-equations.git)
 
-        git clone [https://gitlab.citic.udc.es/emilio.padron/hpctools.git](https://github.com/ana-92/hpc-tools-linear-equations.git)
+        git clone https://gitlab.citic.udc.es/emilio.padron/hpctools.git
 
     + That will create an hpctools subdirectory in your system
     + This will be your local repository for this task
