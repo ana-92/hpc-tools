@@ -1,8 +1,8 @@
 # Preliminary instructions
 
-1. Clone the git repository in [https://gitlab.citic.udc.es/emilio.padron/hpctools](https://github.com/ana-92/hpc-tools-linear-equations.git)
+1. Clone the git repository in https://github.com/ana-92/hpc-tools-linear-equations.git
 
-        git clone https://gitlab.citic.udc.es/emilio.padron/hpctools.git
+        git clone https://github.com/ana-92/hpc-tools-linear-equations.git.git
 
     + That will create an hpctools subdirectory in your system
     + This will be your local repository for this task
@@ -29,5 +29,3 @@
     + Future pull}/push operations do not need to specify the remote
       repo: their will work between local/main - myremote/main
 
-4. You must provide access to your remote repo to the two teachers of
-    HPCTools: Diego Andrade and Emilio J. Padrón
