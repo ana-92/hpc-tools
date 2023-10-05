@@ -4,10 +4,6 @@
 #include <math.h>
 
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-
 void my_dgesv(int N, double *A, double *B) {
     int i, j, k;
     double pivot;
