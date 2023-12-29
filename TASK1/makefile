@@ -2,7 +2,7 @@
 LDLIBS=-lopenblas
 
 # Other systems (my Debian boxes, for example)
-#LDLIBS=-llapacke
+# LDLIBS=-llapacke
 
 # Intel MKL at CESGA
 # Module needed: imkl
@@ -10,8 +10,15 @@ LDLIBS=-lopenblas
 # LDLIBS for intel compiler: icx (module needed: intel)
 # Just invoke make like this: make CC=icx
 #LDLIBS=-qmkl=sequential -lmkl_intel_lp64
+SIZE = 500 
 
-dgesv: dgesv.o timer.o main.o
+COMPILER_NAME := $(CC)
+OPTIMIZATION_LEVEL := $(subst -O,,$(filter -O%,$(CFLAGS)))
+
+EXECUTABLE = my_dgesv_$(COMPILER_NAME)_$(OPTIMIZATION_LEVEL)
+
+$(EXECUTABLE): dgesv.o timer.o main.o
+	$(CC) $(CFLAGS) -o $(EXECUTABLE) dgesv.o timer.o main.o $(LDLIBS) -lm
 
 clean:
 	$(RM) dgesv *.o *~
