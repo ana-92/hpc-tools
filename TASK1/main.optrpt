@@ -1,0 +1,391 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+Intel(R) C Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.3.0 Build 20210609_000000
+
+Compiler options: -Xlinker -rpath=/opt/cesga/2020/software/Core/intel/2021.3.0/compiler/2021.3.0/linux/compiler/lib/intel64 -Wall -O2 -qopt-report=5 -c -o main.o
+
+    Report from: Interprocedural optimizations [ipo]
+
+  WHOLE PROGRAM (SAFE) [EITHER METHOD]: false
+  WHOLE PROGRAM (SEEN) [TABLE METHOD]: false
+  WHOLE PROGRAM (READ) [OBJECT READER METHOD]: false
+
+INLINING OPTION VALUES:
+  -inline-factor: 100
+  -inline-min-size: 30
+  -inline-max-size: 230
+  -inline-max-total-size: 2000
+  -inline-max-per-routine: 10000
+  -inline-max-per-compile: 500000
+
+In the inlining report below:
+   "sz" refers to the "size" of the routine. The smaller a routine's size,
+      the more likely it is to be inlined.
+   "isz" refers to the "inlined size" of the routine. This is the amount
+      the calling routine will grow if the called routine is inlined into it.
+      The compiler generally limits the amount a routine can grow by having
+      routines inlined into it.
+
+Begin optimization report for: main(int, char **)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (main(int, char **)) [1/7=14.3%] main.c(76,1)
+  -> EXTERN: (78,9) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (79,9) exit(int)
+  -> INLINE (MANUAL): (82,16) atoi(const char *) (isz = 4) (sz = 11)
+    -> EXTERN: /mnt/netapp1/Optcesga_FT2_RHEL7/2020/gentoo/22072020/usr/include/stdlib.h:(363,16) strtol(const char *__restrict__, char **__restrict__, int)
+  -> EXTERN: (85,9) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (86,9) exit(int)
+  -> INLINE: (92,9) generate_matrix(unsigned int, unsigned int) (isz = 38) (sz = 47)
+    -> EXTERN: (13,32) malloc(size_t)
+    -> EXTERN: (16,9) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+    -> EXTERN: (17,9) exit(int)
+    -> EXTERN: (20,5) srand(unsigned int)
+    -> EXTERN: (23,21) rand(void)
+  -> INLINE: (93,9) generate_matrix(unsigned int, unsigned int) (isz = 38) (sz = 47)
+    -> EXTERN: (13,32) malloc(size_t)
+    -> EXTERN: (16,9) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+    -> EXTERN: (17,9) exit(int)
+    -> EXTERN: (20,5) srand(unsigned int)
+    -> EXTERN: (23,21) rand(void)
+  -> INLINE: (94,12) duplicate_matrix(double *, unsigned int) (isz = 21) (sz = 30)
+    -> EXTERN: (31,33) malloc(size_t)
+    -> EXTERN: (34,9) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+    -> EXTERN: (35,9) exit(int)
+    -> EXTERN: (38,5) memcpy(void *__restrict__, const void *__restrict__, size_t)
+  -> INLINE: (95,12) duplicate_matrix(double *, unsigned int) (isz = 21) (sz = 30)
+    -> EXTERN: (31,33) malloc(size_t)
+    -> EXTERN: (34,9) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+    -> EXTERN: (35,9) exit(int)
+    -> EXTERN: (38,5) memcpy(void *__restrict__, const void *__restrict__, size_t)
+  -> EXTERN: (98,24) malloc(size_t)
+  -> EXTERN: (101,9) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (102,9) exit(int)
+  -> EXTERN: (106,5) clock_gettime(clockid_t, struct timespec *)
+  -> EXTERN: (108,12) LAPACKE_dgesv(int, int, int, double *, int, int *, double *, int)
+  -> EXTERN: (111,9) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (112,9) exit(int)
+  -> EXTERN: (115,5) clock_gettime(clockid_t, struct timespec *)
+  -> EXTERN: (116,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (116,55) diff_milli(struct timespec *, struct timespec *)
+  -> EXTERN: (121,5) clock_gettime(clockid_t, struct timespec *)
+  -> EXTERN: (123,5) my_dgesv(int, double *, double *)
+  -> EXTERN: (125,5) clock_gettime(clockid_t, struct timespec *)
+  -> EXTERN: (126,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (126,57) diff_milli(struct timespec *, struct timespec *)
+  -> INLINE: (131,9) check_result(double *, double *, unsigned int) (isz = 29) (sz = 41)
+    -> INLINE: (55,14) is_nearly_equal(double, double) (isz = 5) (sz = 14)
+  -> EXTERN: (132,9) printf(const char *__restrict__, ...)
+  -> EXTERN: (134,9) printf(const char *__restrict__, ...)
+  -> EXTERN: (136,5) free(void *)
+  -> EXTERN: (137,5) free(void *)
+  -> EXTERN: (138,5) free(void *)
+  -> EXTERN: (139,5) free(void *)
+  -> EXTERN: (140,5) free(void *)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at main.c(22,5) inlined into main.c(92,9)
+   remark #15527: loop was not vectorized: function call to rand(void) cannot be vectorized   [ main.c(23,21) ]
+LOOP END
+
+LOOP BEGIN at main.c(22,5) inlined into main.c(93,9)
+   remark #15527: loop was not vectorized: function call to rand(void) cannot be vectorized   [ main.c(23,21) ]
+LOOP END
+
+LOOP BEGIN at main.c(54,5) inlined into main.c(131,9)
+   remark #15520: loop was not vectorized: loop with multiple exits cannot be vectorized unless it meets search loop idiom criteria   [ main.c(55,9) ]
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+main.c(38,5):remark #34014: optimization advice for memcpy: increase the destination's alignment to 16 (and use __assume_aligned) to speed up library implementation
+main.c(38,5):remark #34014: optimization advice for memcpy: increase the source's alignment to 16 (and use __assume_aligned) to speed up library implementation
+main.c(38,5):remark #34026: call to memcpy implemented as a call to optimized library version
+main.c(38,5):remark #34014: optimization advice for memcpy: increase the destination's alignment to 16 (and use __assume_aligned) to speed up library implementation
+main.c(38,5):remark #34014: optimization advice for memcpy: increase the source's alignment to 16 (and use __assume_aligned) to speed up library implementation
+main.c(38,5):remark #34026: call to memcpy implemented as a call to optimized library version
+main.c(76,1):remark #34051: REGISTER ALLOCATION : [main] main.c:76
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   39[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm15]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   16[ rax rdx rcx rbx rsi rdi r8-r10 r12-r15 zmm0-zmm2]
+        
+    Routine temporaries
+        Total         :     181
+            Global    :      42
+            Local     :     139
+        Regenerable   :      60
+        Spilled       :      10
+        
+    Routine stack
+        Variables     :      36 bytes*
+            Reads     :       2 [6.93e-01 ~ 0.7%]
+            Writes    :       2 [6.93e-01 ~ 0.7%]
+        Spills        :      40 bytes*
+            Reads     :      13 [3.21e+00 ~ 3.2%]
+            Writes    :       6 [1.49e+00 ~ 1.5%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: atoi(const char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+NEVER EMIT DEFINITION FUNCTION: (atoi(const char *))/mnt/netapp1/Optcesga_FT2_RHEL7/2020/gentoo/22072020/usr/include/stdlib.h(362,1)
+
+===========================================================================
+
+Begin optimization report for: generate_matrix(unsigned int, unsigned int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (generate_matrix(unsigned int, unsigned int)) [3/7=42.9%] main.c(11,1)
+  -> EXTERN: (13,32) malloc(size_t)
+  -> EXTERN: (16,9) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (17,9) exit(int)
+  -> EXTERN: (20,5) srand(unsigned int)
+  -> EXTERN: (23,21) rand(void)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at main.c(22,5)
+   remark #15527: loop was not vectorized: function call to rand(void) cannot be vectorized   [ main.c(23,21) ]
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+main.c(11,1):remark #34051: REGISTER ALLOCATION : [generate_matrix] main.c:11
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   39[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm15]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    9[ rax rdx rcx rsi rdi r12-r14 zmm0]
+        
+    Routine temporaries
+        Total         :      38
+            Global    :      14
+            Local     :      24
+        Regenerable   :       4
+        Spilled       :       3
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: duplicate_matrix(double *, unsigned int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (duplicate_matrix(double *, unsigned int)) [4/7=57.1%] main.c(30,1)
+  -> EXTERN: (31,33) malloc(size_t)
+  -> EXTERN: (34,9) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (35,9) exit(int)
+  -> EXTERN: (38,5) memcpy(void *__restrict__, const void *__restrict__, size_t)
+
+
+    Report from: Code generation optimizations [cg]
+
+main.c(38,5):remark #34014: optimization advice for memcpy: increase the destination's alignment to 16 (and use __assume_aligned) to speed up library implementation
+main.c(38,5):remark #34014: optimization advice for memcpy: increase the source's alignment to 16 (and use __assume_aligned) to speed up library implementation
+main.c(38,5):remark #34026: call to memcpy implemented as a call to optimized library version
+main.c(30,1):remark #34051: REGISTER ALLOCATION : [duplicate_matrix] main.c:30
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   39[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm15]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    7[ rax rdx rbx rbp rsi rdi r12]
+        
+    Routine temporaries
+        Total         :      28
+            Global    :      10
+            Local     :      18
+        Regenerable   :       3
+        Spilled       :       3
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: is_nearly_equal(double, double)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (is_nearly_equal(double, double)) [5/7=71.4%] main.c(44,1)
+
+
+    Report from: Code generation optimizations [cg]
+
+main.c(44,1):remark #34051: REGISTER ALLOCATION : [is_nearly_equal] main.c:44
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   39[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm15]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    4[ rax zmm0-zmm2]
+        
+    Routine temporaries
+        Total         :      19
+            Global    :       0
+            Local     :      19
+        Regenerable   :       0
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: check_result(double *, double *, unsigned int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (check_result(double *, double *, unsigned int)) [6/7=85.7%] main.c(51,1)
+  -> INLINE: (55,14) is_nearly_equal(double, double) (isz = 5) (sz = 14)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at main.c(54,5)
+   remark #15324: loop was not vectorized: unsigned types for induction variable and/or for lower/upper iteration bounds make loop uncountable
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+main.c(51,1):remark #34051: REGISTER ALLOCATION : [check_result] main.c:51
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   39[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm15]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :    7[ rax rdx rsi rdi zmm0-zmm2]
+        
+    Routine temporaries
+        Total         :      24
+            Global    :      11
+            Local     :      13
+        Regenerable   :       3
+        Spilled       :       0
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
+
+Begin optimization report for: print_matrix(double *, int, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (print_matrix(double *, int, int)) [7/7=100.0%] main.c(63,1)
+  -> EXTERN: (68,13) printf(const char *__restrict__, ...)
+  -> EXTERN: (70,9) printf(const char *__restrict__, ...)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at main.c(64,5)
+   remark #15541: outer loop was not auto-vectorized: consider using SIMD directive
+
+   LOOP BEGIN at main.c(66,9)
+      remark #15382: vectorization support: call to function printf(const char *__restrict__, ...) cannot be vectorized   [ main.c(68,13) ]
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   LOOP END
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+main.c(63,1):remark #34051: REGISTER ALLOCATION : [print_matrix] main.c:63
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   39[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm15]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   13[ rax rdx rcx rbx rbp rsi rdi r8 r12-r15 zmm0]
+        
+    Routine temporaries
+        Total         :      25
+            Global    :      16
+            Local     :       9
+        Regenerable   :       5
+        Spilled       :       8
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :      64 bytes*
+            Reads     :       8 [4.83e+00 ~ 4.8%]
+            Writes    :       8 [4.83e+00 ~ 4.8%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
