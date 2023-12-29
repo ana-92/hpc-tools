@@ -1,13 +1,18 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 
 
 void my_dgesv(int N, double *A, double *B) {
     int i, j, k;
     double pivot;
     int *pivots = (int *)malloc(N * sizeof(int));
+
+    if (pivots == NULL) {
+        fprintf(stderr, "Error: Failed to allocate memory for pivots array\n");
+        exit(EXIT_FAILURE);
+    }
 
     for (i = 0; i < N; i++) {
         pivots[i] = i;
@@ -42,6 +47,7 @@ void my_dgesv(int N, double *A, double *B) {
             B[pivots[pivot_row] * N + j] = temp_b;
         }
 
+
         pivot = A[pivots[i] * N + i];
 
         for (j = i; j < N; j++) {
@@ -51,7 +57,6 @@ void my_dgesv(int N, double *A, double *B) {
         for (j = 0; j < N; j++) {
             B[pivots[i] * N + j] /= pivot;
         }
-
 
         for (k = 0; k < N; k++) {
             if (k != i) {
@@ -66,8 +71,21 @@ void my_dgesv(int N, double *A, double *B) {
         }
     }
 
+    // Rearrange B according to the final pivot order
+    double *tempB = (double *)malloc(N * N * sizeof(double));
+    if (tempB == NULL) {
+        fprintf(stderr, "Error: Failed to allocate memory for tempB array\n");
+        exit(EXIT_FAILURE);
+    }
+
+    for (i = 0; i < N; i++) {
+        for (j = 0; j < N; j++) {
+            tempB[i * N + j] = B[pivots[i] * N + j];
+        }
+    }
+
+    memcpy(B, tempB, N * N * sizeof(double));
+
+    free(tempB);
     free(pivots);
 }
-
-
-
