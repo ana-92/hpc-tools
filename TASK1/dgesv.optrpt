@@ -1,0 +1,235 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+Intel(R) C Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.3.0 Build 20210609_000000
+
+Compiler options: -Xlinker -rpath=/opt/cesga/2020/software/Core/intel/2021.3.0/compiler/2021.3.0/linux/compiler/lib/intel64 -Wall -O2 -qopt-report=5 -c -o dgesv.o
+
+    Report from: Interprocedural optimizations [ipo]
+
+  WHOLE PROGRAM (SAFE) [EITHER METHOD]: false
+  WHOLE PROGRAM (SEEN) [TABLE METHOD]: false
+  WHOLE PROGRAM (READ) [OBJECT READER METHOD]: false
+
+INLINING OPTION VALUES:
+  -inline-factor: 100
+  -inline-min-size: 30
+  -inline-max-size: 230
+  -inline-max-total-size: 2000
+  -inline-max-per-routine: 10000
+  -inline-max-per-compile: 500000
+
+In the inlining report below:
+   "sz" refers to the "size" of the routine. The smaller a routine's size,
+      the more likely it is to be inlined.
+   "isz" refers to the "inlined size" of the routine. This is the amount
+      the calling routine will grow if the called routine is inlined into it.
+      The compiler generally limits the amount a routine can grow by having
+      routines inlined into it.
+
+Begin optimization report for: my_dgesv(int, double *, double *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (my_dgesv(int, double *, double *)) [1/1=100.0%] dgesv.c(7,44)
+  -> EXTERN: (10,26) malloc(size_t)
+  -> EXTERN: (13,9) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (14,9) exit(int)
+  -> EXTERN: (75,31) malloc(size_t)
+  -> EXTERN: (77,9) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (78,9) exit(int)
+  -> EXTERN: (87,5) memcpy(void *__restrict__, const void *__restrict__, size_t)
+  -> EXTERN: (89,5) free(void *)
+  -> EXTERN: (90,5) free(void *)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at dgesv.c(17,5)
+<Peeled loop for vectorization>
+   remark #25015: Estimate of max trip count of loop=3
+LOOP END
+
+LOOP BEGIN at dgesv.c(17,5)
+   remark #15388: vectorization support: reference pivots[i] has aligned access   [ dgesv.c(18,9) ]
+   remark #15305: vectorization support: vector length 4
+   remark #15309: vectorization support: normalized vectorization overhead 3.333
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15442: entire loop may be executed in remainder
+   remark #15449: unmasked aligned unit stride stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 3 
+   remark #15477: vector cost: 0.750 
+   remark #15478: estimated potential speedup: 3.680 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at dgesv.c(17,5)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at dgesv.c(21,5)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at dgesv.c(25,9)
+      remark #15389: vectorization support: reference pivots[j] has unaligned access   [ dgesv.c(26,37) ]
+      remark #15381: vectorization support: unaligned access used inside loop body
+      remark #15328: vectorization support: irregularly indexed load was emulated for the variable <A[(*(pivots+j*4))*N+i]>, part of index is read from memory   [ dgesv.c(26,35) ]
+      remark #15305: vectorization support: vector length 2
+      remark #15309: vectorization support: normalized vectorization overhead 0.938
+      remark #15355: vectorization support: pivot is double type reduction   [ dgesv.c(28,17) ]
+      remark #15300: LOOP WAS VECTORIZED
+      remark #15450: unmasked unaligned unit stride loads: 1 
+      remark #15462: unmasked indexed (or gather) loads: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 34 
+      remark #15477: vector cost: 32.000 
+      remark #15478: estimated potential speedup: 1.050 
+      remark #15488: --- end vector cost summary ---
+   LOOP END
+
+   LOOP BEGIN at dgesv.c(25,9)
+   <Remainder loop for vectorization>
+   LOOP END
+
+   LOOP BEGIN at dgesv.c(37,9)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization
+      remark #15346: vector dependence: assumed ANTI dependence between A[(*(pivots+i*4))*N+j] (38:29) and A[(*(pivots+pivot_row*4))*N+j] (40:13)
+      remark #15346: vector dependence: assumed FLOW dependence between A[(*(pivots+pivot_row*4))*N+j] (40:13) and A[(*(pivots+i*4))*N+j] (38:29)
+      remark #25439: unrolled with remainder by 2  
+   LOOP END
+
+   LOOP BEGIN at dgesv.c(37,9)
+   <Remainder>
+   LOOP END
+
+   LOOP BEGIN at dgesv.c(44,9)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization
+      remark #15346: vector dependence: assumed ANTI dependence between B[(*(pivots+i*4))*N+j] (45:29) and B[(*(pivots+pivot_row*4))*N+j] (47:13)
+      remark #15346: vector dependence: assumed FLOW dependence between B[(*(pivots+pivot_row*4))*N+j] (47:13) and B[(*(pivots+i*4))*N+j] (45:29)
+      remark #25439: unrolled with remainder by 2  
+   LOOP END
+
+   LOOP BEGIN at dgesv.c(44,9)
+   <Remainder>
+   LOOP END
+
+   LOOP BEGIN at dgesv.c(53,9)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization
+      remark #15346: vector dependence: assumed FLOW dependence between A[(*(pivots+i*4))*N+j] (54:13) and A[(*(pivots+i*4))*N+j] (54:13)
+      remark #15346: vector dependence: assumed ANTI dependence between A[(*(pivots+i*4))*N+j] (54:13) and A[(*(pivots+i*4))*N+j] (54:13)
+      remark #25439: unrolled with remainder by 2  
+   LOOP END
+
+   LOOP BEGIN at dgesv.c(53,9)
+   <Remainder>
+   LOOP END
+
+   LOOP BEGIN at dgesv.c(57,9)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization
+      remark #15346: vector dependence: assumed FLOW dependence between B[(*(pivots+i*4))*N+j] (58:13) and B[(*(pivots+i*4))*N+j] (58:13)
+      remark #15346: vector dependence: assumed ANTI dependence between B[(*(pivots+i*4))*N+j] (58:13) and B[(*(pivots+i*4))*N+j] (58:13)
+      remark #25439: unrolled with remainder by 2  
+   LOOP END
+
+   LOOP BEGIN at dgesv.c(57,9)
+   <Remainder>
+   LOOP END
+
+   LOOP BEGIN at dgesv.c(61,9)
+      remark #15541: outer loop was not auto-vectorized: consider using SIMD directive
+
+      LOOP BEGIN at dgesv.c(64,17)
+         remark #15344: loop was not vectorized: vector dependence prevents vectorization
+         remark #15346: vector dependence: assumed FLOW dependence between A[(*(pivots+k*4))*N+j] (65:21) and A[(*(pivots+k*4))*N+j] (65:21)
+         remark #15346: vector dependence: assumed ANTI dependence between A[(*(pivots+k*4))*N+j] (65:21) and A[(*(pivots+k*4))*N+j] (65:21)
+         remark #25439: unrolled with remainder by 2  
+      LOOP END
+
+      LOOP BEGIN at dgesv.c(64,17)
+      <Remainder>
+      LOOP END
+
+      LOOP BEGIN at dgesv.c(67,17)
+         remark #15344: loop was not vectorized: vector dependence prevents vectorization
+         remark #15346: vector dependence: assumed FLOW dependence between B[(*(pivots+k*4))*N+j] (68:21) and B[(*(pivots+k*4))*N+j] (68:21)
+         remark #15346: vector dependence: assumed ANTI dependence between B[(*(pivots+k*4))*N+j] (68:21) and B[(*(pivots+k*4))*N+j] (68:21)
+         remark #25439: unrolled with remainder by 2  
+      LOOP END
+
+      LOOP BEGIN at dgesv.c(67,17)
+      <Remainder>
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at dgesv.c(81,5)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at dgesv.c(82,9)
+   <Peeled loop for vectorization>
+      remark #25015: Estimate of max trip count of loop=1
+   LOOP END
+
+   LOOP BEGIN at dgesv.c(82,9)
+      remark #15388: vectorization support: reference tempB[i*N+j] has aligned access   [ dgesv.c(83,13) ]
+      remark #15388: vectorization support: reference B[(*(pivots+i*4))*N+j] has aligned access   [ dgesv.c(83,32) ]
+      remark #15305: vectorization support: vector length 2
+      remark #15309: vectorization support: normalized vectorization overhead 4.667
+      remark #15300: LOOP WAS VECTORIZED
+      remark #15442: entire loop may be executed in remainder
+      remark #15448: unmasked aligned unit stride loads: 1 
+      remark #15449: unmasked aligned unit stride stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 10 
+      remark #15477: vector cost: 1.500 
+      remark #15478: estimated potential speedup: 6.230 
+      remark #15488: --- end vector cost summary ---
+   LOOP END
+
+   LOOP BEGIN at dgesv.c(82,9)
+   <Alternate Alignment Vectorized Loop>
+   LOOP END
+
+   LOOP BEGIN at dgesv.c(82,9)
+   <Remainder loop for vectorization>
+   LOOP END
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+dgesv.c(87,5):remark #34014: optimization advice for memcpy: increase the destination's alignment to 16 (and use __assume_aligned) to speed up library implementation
+dgesv.c(87,5):remark #34014: optimization advice for memcpy: increase the source's alignment to 16 (and use __assume_aligned) to speed up library implementation
+dgesv.c(87,5):remark #34026: call to memcpy implemented as a call to optimized library version
+dgesv.c(7,44):remark #34051: REGISTER ALLOCATION : [my_dgesv] dgesv.c:7
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   39[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm15]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   28[ rax rdx rcx rbx rbp rsi rdi r8-r15 zmm0-zmm12]
+        
+    Routine temporaries
+        Total         :     330
+            Global    :      95
+            Local     :     235
+        Regenerable   :      15
+        Spilled       :      16
+        
+    Routine stack
+        Variables     :       0 bytes*
+            Reads     :       0 [0.00e+00 ~ 0.0%]
+            Writes    :       0 [0.00e+00 ~ 0.0%]
+        Spills        :      72 bytes*
+            Reads     :      21 [3.19e+00 ~ 3.2%]
+            Writes    :      19 [1.81e+00 ~ 1.8%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================
