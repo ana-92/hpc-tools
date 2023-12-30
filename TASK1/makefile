@@ -17,10 +17,10 @@ CFLAGS ?= -Wall -O2 -qopt-report=5
 COMPILER_NAME := $(CC)
 OPTIMIZATION_LEVEL := $(subst -O,,$(filter -O%,$(CFLAGS)))
 
-EXECUTABLE = my_dgesv_$(COMPILER_NAME)_$(OPTIMIZATION_LEVEL).exe
+EXECUTABLE = my_dgesv_$(COMPILER_NAME)_$(OPTIMIZATION_LEVEL)
 
 $(EXECUTABLE): dgesv.o timer.o main.o
-	$(CC) $(CFLAGS) -o $(EXECUTABLE) dgesv.o timer.o main.o $(LDLIBS) -lm
+	$(CC) $(CFLAGS) -g -o $(EXECUTABLE) dgesv.o timer.o main.o $(LDLIBS) -lm
 
 clean:
 	$(RM) dgesv *.o *~
