@@ -95,3 +95,5 @@ void my_dgesv(int N, double *A, double *B) {
     free(tempB);
     free(pivots);
 }
+
+
